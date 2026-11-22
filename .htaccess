@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# সরাসরি content.php অ্যাক্সেস ব্লক করা
+<Files "content.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# ডিফল্ট ইনডেক্স ফাইল নির্ধারণ
+DirectoryIndex index.php
