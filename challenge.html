@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checking your browser...</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+        .box {
+            text-align: center;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .loader {
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="loader"></div>
+        <h3>আপনার ব্রাউজার যাচাই করা হচ্ছে...</h3>
+        <p id="status">অনুগ্রহ করে ২ সেকেন্ড অপেক্ষা করুন।</p>
+    </div>
+
+    <script>
+        // সাধারণ বট ঠেকানোর জন্য একটি ছোট চ্যালেঞ্জ
+        const a = 7, b = 5;
+        const challengeAnswer = a * b + 3; // 38
+
+        setTimeout(() => {
+            fetch('get_token.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ answer: challengeAnswer })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    window.location.href = 'index.php';
+                } else {
+                    document.getElementById('status').innerText = 'ভেরিফিকেশন ব্যর্থ হয়েছে। পেজ রিলোড দিন।';
+                }
+            })
+            .catch(() => {
+                document.getElementById('status').innerText = 'সার্ভার এরর! আবার চেষ্টা করুন।';
+            });
+        }, 1500);
+    </script>
+</body>
+</html>
